@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Capture</title>
+</head>
+<body>
+    <h1>Potato Disease Classification</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture-btn">Capture</button>
+    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+
+    <script>
+        const video = document.getElementById('video');
+        const captureButton = document.getElementById('capture-btn');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Access the webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing the webcam: ', error);
+            });
+
+        // Capture image from webcam and send to server
+        captureButton.addEventListener('click', () => {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append('image', blob, 'webcam_capture.jpg');
+                
+                fetch('/capture', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to capture image');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const imageURL = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = imageURL;
+                    link.download = 'webcam_capture.jpg';
+                    link.click();
+                })
+                .catch(error => {
+                    console.error('Error capturing image:', error);
+                });
+            }, 'image/jpeg');
+        });
+    </script>
+</body>
+</html>
