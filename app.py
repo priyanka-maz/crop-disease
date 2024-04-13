@@ -1,26 +1,26 @@
-from flask import Flask, render_template, request, jsonify
-import cv2
+from flask import Flask, render_template, request
+from flask_socketio import SocketIO, emit
 import numpy as np
+import base64
+import io
+from models.models import potato_predict, rice_predict
 
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
-# Access the webcam
-video_capture = cv2.VideoCapture(0)
-
-@app.route("/")
+@app.route('/', methods=['POST', 'GET'])
 def index():
     return render_template("index.html")
 
-@app.route("/capture", methods=["POST"])
-def capture():
-    success, frame = video_capture.read()
-    if success:
-        # Convert the frame to JPEG format
-        _, buffer = cv2.imencode('.jpg', frame)
-        frame_bytes = buffer.tobytes()
-        return frame_bytes
-    else:
-        return jsonify(error="Failed to capture image from webcam"), 500
+@socketio.on('image')
+def image(data_image):
+    # decode and convert into image
+    b = io.BytesIO(base64.b64decode(data_image))
+
+    json_data = rice_predict(b)
+    
+    # Emit the JSON data to the client
+    emit('prediction_result', json_data)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app, port=5000, debug=True)
