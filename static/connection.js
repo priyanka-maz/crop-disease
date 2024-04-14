@@ -2,6 +2,10 @@ var record = false;
 
 function RecordButton(file){
     var recordButton = document.getElementById('Record');
+
+    document.getElementById('label').textContent = "";
+    document.getElementById('score').textContent = "";
+
     if(record == false)
     {
         record = true;
@@ -14,12 +18,12 @@ function RecordButton(file){
         {
             stopVideoCapture();
         }
-        // getRecommendation();
     }
     else
     {
         record = false;
         recordButton.innerHTML = '<i class="fa-regular fa-circle-dot fa-fade"></i>Snap'; // Start to snap, video must start again
+
         startVideoCapture();
     }
 }
@@ -145,7 +149,8 @@ function stopVideoCapture(file) {
                 record = true;
                 RecordButton();
             } else {
-            socket.emit('image', { image: data, crop: selectedCrop });
+                showLoadingIndicator();
+                socket.emit('image', { image: data, crop: selectedCrop });
             }
         };
         img.src = imageData;
@@ -164,7 +169,8 @@ function stopVideoCapture(file) {
             record = true;
             RecordButton();
         } else {
-        socket.emit('image', { image: data, crop: selectedCrop });
+            showLoadingIndicator();
+            socket.emit('image', { image: data, crop: selectedCrop });
         }
     }
 }
@@ -174,21 +180,26 @@ setTimeout(processVideo, 0);
 
 // Listen for the 'prediction_result' event from the server
 socket.on('prediction_result', function(data) {
+    hideLoadingIndicator();
+
     // Access the prediction data
     var prediction_data = JSON.parse(data);
 
     var label = prediction_data.label;
     var confidence = prediction_data.confidence;
 
-    // Use the prediction data as needed
-    console.log('Received prediction - Label:', label, 'Confidence:', confidence);
-
     document.getElementById('label').textContent = label;
     document.getElementById('score').textContent = 'Probability: ' + confidence;
 
 });
 
+function showLoadingIndicator() {
+    document.getElementById('loadingIndicator').style.display = 'block';
+}
 
+function hideLoadingIndicator() {
+    document.getElementById('loadingIndicator').style.display = 'none';
+}
 
 // //Get Response from server
 // socket.on('response_back', function(image){

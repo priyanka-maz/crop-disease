@@ -104,6 +104,9 @@
                     <div class="col-md">
                         <div class="classify-disease">
                             <p>Diseases</p>
+                            <div id="loadingIndicator" style="display: none;">
+                                <p style="display: inline;">Detecting Disease</p> <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+                            </div>
                             <div class="label">
                                 <p id="label"></p>
                                 <p id="score"></p>
@@ -125,7 +128,6 @@
 
         function dark(code){
                 root.style.setProperty('--gradient-color1', code);
-
         }
 
     </script>

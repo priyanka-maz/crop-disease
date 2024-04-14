@@ -96,6 +96,14 @@ body{
     font-size: 28px;
 }
 
+#loadingIndicator{
+    color: #5c7a5d;
+}
+
+#loadingIndicator p{
+    font-size: 30px;
+}
+
 .disease-part{
     width:100%;
     margin: 10px;
