@@ -48,6 +48,7 @@ function UploadButton() {
             RecordButton(file);
         } else {
             alert("Please select a file.");
+            return;
         }
     });
 }
@@ -137,7 +138,15 @@ function stopVideoCapture(file) {
             var type = "image/" + extension;
             var data = canvas.toDataURL(type, 0.9);
             data = data.replace('data:' + type + ';base64,', ''); //split off junk 
-            socket.emit('image', data);
+            var selectedCrop = $('#cropDropdown').val();
+            if (!selectedCrop) {
+                // If empty, send an alert
+                alert('Please select a crop.');
+                record = true;
+                RecordButton();
+            } else {
+            socket.emit('image', { image: data, crop: selectedCrop });
+            }
         };
         img.src = imageData;
         };
@@ -148,7 +157,15 @@ function stopVideoCapture(file) {
         var type = "image/png";
         var data = document.getElementById("canvasOutput").toDataURL(type, 0.1);
         data = data.replace('data:' + type + ';base64,', ''); //split off junk 
-        socket.emit('image', data);
+        var selectedCrop = $('#cropDropdown').val();
+        if (!selectedCrop) {
+            // If empty, send an alert
+            alert('Please select a crop.');
+            record = true;
+            RecordButton();
+        } else {
+        socket.emit('image', { image: data, crop: selectedCrop });
+        }
     }
 }
 
@@ -166,10 +183,11 @@ socket.on('prediction_result', function(data) {
     // Use the prediction data as needed
     console.log('Received prediction - Label:', label, 'Confidence:', confidence);
 
-    document.getElementById('label').textContent = 'Predicted Label: ' + label;
-    document.getElementById('score').textContent = 'Confidence Score: ' + confidence;
+    document.getElementById('label').textContent = label;
+    document.getElementById('score').textContent = 'Probability: ' + confidence;
 
 });
+
 
 
 // //Get Response from server

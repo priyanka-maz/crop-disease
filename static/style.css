@@ -79,10 +79,24 @@ body{
     box-shadow: -23px 23px 0px rgb(255, 255, 255), -23px 23px 0px 1px rgb(0, 0, 0);
     margin-bottom: 10px;
     border: 1px solid black;
-
 }
 
-.mood-part{
+#crops{
+    padding-left: 45px;
+    padding-bottom: 0px;
+    padding-top: 5px;
+}
+
+#cropDropDown{
+    border: 1px solid black;
+    border-radius: 20px;
+    width: fit-content;
+    font-family: "Product Sans Medium";
+    opacity: 70%;
+    font-size: 28px;
+}
+
+.disease-part{
     width:100%;
     margin: 10px;
     border-radius: 20px;

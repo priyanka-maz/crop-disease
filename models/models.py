@@ -83,7 +83,24 @@ def rice_predict(bytes):
     input_arr = np.array([input_arr])  # Convert single image to a batch.
     predictions = model.predict(input_arr)
 
-    class_names=['Bacterialblight', 'Brownspot', 'Healthy']
+    class_names=['Bacterial Blight', 'Brownspot', 'Healthy']
+    result_index = np.argmax(predictions)
+    predicted_class = class_names[result_index]
+
+    confidence = round(100 * (np.max(predictions[0])), 2)
+
+    return json.dumps({"label": predicted_class, "confidence": confidence})
+
+
+def tea_predict(bytes):
+    model = tf.keras.models.load_model(r"models\tea_disease_detection_model.h5")
+
+    image = tf.keras.preprocessing.image.load_img(bytes,target_size=(128,128))
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.array([input_arr])  # Convert single image to a batch.
+    predictions = model.predict(input_arr)
+
+    class_names=['Gray Blight', 'Healthy', 'Red Spot']
     result_index = np.argmax(predictions)
     predicted_class = class_names[result_index]
 
@@ -93,5 +110,5 @@ def rice_predict(bytes):
 
 # if __name__ == "__main__":
     
-#     image_path = r"static\rice\bactbli_2.jpeg"
+#     image_path = r"static\tea\gb_2.jpg"
 #     print(rice_predict(image_path))

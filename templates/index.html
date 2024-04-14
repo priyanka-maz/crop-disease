@@ -64,14 +64,22 @@
                 </nav>
 
                 <video autoplay="true" id="videoElement" style="display:none;"></video>
-
+                
                 <div class="header-spacing"></div>
             
                 <br>
                 <!--From camera directly-->
                 <div class="row" style="width:100%;text-align:center;margin:0 auto;">
                     <div class="col-md">
-                        <div class="card mood-part">
+                        <div id="crops">
+                            <select class="form-control" id="cropDropdown">
+                                <option value="">Select a Crop</option>
+                                <option value="rice">Rice</option>
+                                <option value="tea">Tea</option>
+                                <option value="potato">Potato</option>
+                            </select>
+                        </div>
+                        <div class="card disease-part">
                             <!--In canvas-->
                             <canvas id="canvasOutput" style="transform:scaleX(-1);"></canvas>
 
