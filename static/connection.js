@@ -1,3 +1,47 @@
+var crops_info = {
+    "potato" : {
+        "Early Blight" : {
+            "Condition": "Early blight is a common fungal disease affecting potato plants, caused by the fungus Alternaria solani. It appears as dark spots with concentric rings on leaves, starting from the bottom of the plant and spreading upwards.", 
+            "Care": "To control early blight, practice crop rotation, remove and destroy infected plant debris, and apply fungicides preventatively."
+            }, 
+        "Late Blight": {
+            "Condition": "Late blight is a destructive fungal disease caused by Phytophthora infestans. It manifests as dark, water-soaked lesions on leaves, stems, and tubers, often leading to rapid plant decay.", 
+            "Care": "Control late blight by planting resistant potato varieties, applying fungicides preventatively, and ensuring proper air circulation and drainage in the garden."
+            }, 
+        "Healthy" : {
+            "Condition": "Healthy potato plants exhibit vibrant green foliage, free from any signs of disease or distress. Leaves are intact, without spots or lesions, and the overall plant appearance is robust.", 
+            "Care": "Maintain plant health by providing adequate water and nutrients, practicing proper crop rotation, and promptly removing any weeds or diseased plant material from the garden."
+            } 
+        },
+    "rice" : {
+        "Bacterial Blight" : {
+            "Condition": "Bacterial blight affects rice plants, caused by the bacterium Xanthomonas oryzae pv. oryzae. It leads to water-soaked lesions on leaves, turning them yellow or brown over time.", 
+            "Care": "Manage bacterial blight by planting resistant rice varieties, avoiding overhead irrigation, and applying copper-based fungicides. Remove and destroy infected plants to prevent further spread."
+            },
+        "Brown Spot" : {
+            "Condition": "Brown spot is a fungal disease of rice caused by the pathogen Cochliobolus miyabeanus. It appears as small, dark brown spots on leaves, gradually expanding and forming lesions.", 
+            "Care": "Control brown spot by practicing crop rotation, ensuring proper drainage, and applying fungicides during the early stages of the disease. Remove and destroy infected plant debris to minimize disease spread."
+            },
+        "Healthy" : {
+            "Condition": "Healthy rice plants exhibit vigorous growth with lush green foliage and no signs of disease. Leaves are free from spots or lesions, contributing to optimal plant development.", 
+            "Care": "Maintain plant health by providing balanced nutrition, adequate water, and proper weed control. Monitor plants regularly for signs of pests or diseases and take prompt action if any issues arise."
+            }
+        }, 
+    "tea" : {
+        "Gray Blight": {
+            "Condition": "Gray blight affects tea plants and is caused by the fungus Pestalotiopsis spp. It appears as grayish-brown lesions on leaves, leading to defoliation and reduced yield.",
+            "Care": "Manage gray blight by pruning affected branches, improving air circulation, and applying fungicides containing copper or sulfur. Avoid overhead irrigation and remove and destroy infected plant material to prevent spread."
+        }, 
+        "Red Spot": {
+            "Condition": "Red spot is a fungal disease affecting tea plants, caused by the pathogen Cercospora theae. It appears as small, red lesions on leaves, often surrounded by a yellow halo, leading to premature leaf drop.",
+            "Care": "Control red spot by practicing good sanitation, removing and destroying infected leaves, and applying fungicides during periods of high humidity. Ensure proper spacing between plants to improve air circulation and reduce disease incidence."
+        },
+        "Healthy" : {
+            "Condition": "Healthy tea plants exhibit vigorous growth with vibrant green foliage and no signs of disease. Leaves are intact and free from discoloration or lesions, contributing to optimal tea production.", 
+            "Care": "Maintain plant health through proper cultural practices such as regular watering, fertilization, and pruning. Monitor plants for signs of pests or diseases and take appropriate action if any issues arise."
+        }
+    }
+}
 var record = false;
 
 function RecordButton(file){
@@ -5,6 +49,7 @@ function RecordButton(file){
 
     document.getElementById('label').textContent = "";
     document.getElementById('score').textContent = "";
+    document.getElementById('about-container').style = "display: none";
 
     if(record == false)
     {
@@ -189,7 +234,12 @@ socket.on('prediction_result', function(data) {
     var confidence = prediction_data.confidence;
 
     document.getElementById('label').textContent = label;
-    document.getElementById('score').textContent = 'Probability: ' + confidence;
+    document.getElementById('score').textContent = 'Probability: ' + confidence + "%";
+    document.getElementById('about-container').style = "display: block";
+
+    var selectedCrop = $('#cropDropdown').val();
+    document.getElementById('condition').textContent = crops_info[selectedCrop][label]["Condition"];
+    document.getElementById('care').textContent = crops_info[selectedCrop][label]["Care"];
 
 });
 
@@ -200,6 +250,12 @@ function showLoadingIndicator() {
 function hideLoadingIndicator() {
     document.getElementById('loadingIndicator').style.display = 'none';
 }
+
+$('#cropDropdown').change(function() {
+
+    record = true;
+    RecordButton(); // if you upload photo and then change crop, it resets
+});
 
 // //Get Response from server
 // socket.on('response_back', function(image){

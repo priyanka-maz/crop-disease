@@ -52,7 +52,7 @@
                 <nav class="navbar bg-body-tertiary" id="header">
                     <div class="container-fluid">
                     <a class="navbar-brand" href="#">
-                        <img src="{{url_for('static', filename='icon.png')}}" alt="Logo" width="55" height="55" class="d-inline-block align-text-top">
+                        <img src="{{url_for('static', filename='icon.png')}}" alt="Logo" width="35" height="35" class="d-inline-block align-text-top">
                     
                     </a>
                     <ul class="nav justify-content-end">
@@ -110,6 +110,10 @@
                             <div class="label">
                                 <p id="label"></p>
                                 <p id="score"></p>
+                            </div>
+                            <div id="about-container" style="display: none;">
+                                <h1>Condition: </h1><p id="condition"></p>
+                                <h1>Care: </h1><p id="care"></p>
                             </div>
                         </div>
                     </div>

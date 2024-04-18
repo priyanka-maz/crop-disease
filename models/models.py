@@ -83,7 +83,7 @@ def rice_predict(bytes):
     input_arr = np.array([input_arr])  # Convert single image to a batch.
     predictions = model.predict(input_arr)
 
-    class_names=['Bacterial Blight', 'Brownspot', 'Healthy']
+    class_names=['Bacterial Blight', 'Brown Spot', 'Healthy']
     result_index = np.argmax(predictions)
     predicted_class = class_names[result_index]
 
