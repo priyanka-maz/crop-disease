@@ -4,8 +4,10 @@
 <div align="center">
     <img src="static\icon.png" alt="Logo" width="80" height="80">
     <h3 align="center">Crop Disease Detector</h3>
-    <iframe width="420" height="315" src="https://www.youtube.com/watch?v=OMcqQ4xGDqY"></iframe>
 </div>
+
+[![Demo](https://img.youtube.com/vi/OMcqQ4xGDqY/0.jpg)](https://www.youtube.com/watch?v=OMcqQ4xGDqY)
+
 
 ## Setup using Python virtual environment
 
