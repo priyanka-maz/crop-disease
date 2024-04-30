@@ -6,7 +6,7 @@
     <h3 align="center">Crop Disease Detector</h3>
 </div>
 
-[![Demo](https://img.youtube.com/vi/OMcqQ4xGDqY/0.jpg)](https://www.youtube.com/watch?v=OMcqQ4xGDqY)
+[![Demo](screenshots/visual_cue.png)](https://www.youtube.com/watch?v=OMcqQ4xGDqY)
 
 
 ## Setup using Python virtual environment
