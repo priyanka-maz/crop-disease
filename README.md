@@ -57,7 +57,7 @@ python3 app.py
 ## Features
 
 - This website was developed using Python, Flask, SocketIO, HTML, CSS and Javascript.
-- Flask has been utlized as a development server.
+- Flask has been utilized as a development server.
 - SocketIO has been used to set up a bidirectional stream of images and their inference results between the client and server.
 - Users who wish to click real-time images of their crops may use this application.
 - Functionality for uploading pre-existing images and detecting crop disease in them has been implemented.
